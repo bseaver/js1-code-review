@@ -4,16 +4,26 @@ var findDrsSample = require('./../js/backend/search_sample.js').findDrsSample;
 
 
 var displayResults = function(searchResults) {
+  lastResults = searchResults;
+  if (searchPending) {
+    searchPending = false;
+    $('#searchOutput').html("");
+  }
+
   var displayResult = "";
+  if (!lastResults.data.length) {
+    displayResult = '<h3>No Doctors matched!<h3>';
+  }
+
   var website;
-  searchResults.data.forEach(function(drRecord){
+  lastResults.data.forEach(function(drRecord){
     displayResult +=
       '<div class="panel panel-default">' +
         '<div class="panel-heading">' +
           drRecord.profile.first_name + " " +
           (drRecord.profile.middle_name?drRecord.profile.middle_name + " ":"") +
           drRecord.profile.last_name + " " +
-          drRecord.profile.title +
+          (drRecord.profile.title?drRecord.profile.title:'') +
         '</div>' +
         '<div class="panel-body">' +
           '<table class="table table-striped">' +
@@ -90,6 +100,8 @@ var displayFailure = function(errorResult){
 
 
 var newFindDrs;
+var searchPending;
+var lastResults;
 
 $(document).ready(function(){
   // The following enables developing the Dr. Result Output without
@@ -98,12 +110,16 @@ $(document).ready(function(){
 
   $("#drSearch").submit(function(event) {
     event.preventDefault();
-    var drFirstName = $("#drFirstName").val();
-    var drLastName = $("#drLastName").val();
-    var medicalIssue = $("#medicalIssue").val();
 
-    $("#searchOutput").empty();
-    newFindDrs = new findDrs();
-    newFindDrs.findDrs(0, displayResults, displayFailure);
+    if (!searchPending) {
+      searchPending = true;
+      var drFirstName = $("#drFirstName").val();
+      var drLastName = $("#drLastName").val();
+      var medicalIssue = $("#medicalIssue").val();
+
+      $("#searchOutput").html('<h3>Search pending. One moment please...<h3>');
+      newFindDrs = new findDrs(drFirstName, drLastName, medicalIssue);
+      newFindDrs.findDrs(0, displayResults, displayFailure);
+    }
   });
 });
