@@ -86,8 +86,6 @@ npm install
 
 bower install
 
-gem install sass
-
 gulp jshint (to check for errors)
 
 gulp servedev (to serve the dev build)
@@ -152,6 +150,7 @@ bower install moment --save (Not used in this Project)
 
 ## Implementation Plan
 * Prepare this README with implementation plan
+* Verify formatting of README.md in markdown viewer
 * Initial Hello World framework served by gulp
 * Verify JSHint
 * Verify Build Dev (viewable build)
