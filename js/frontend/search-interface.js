@@ -5,14 +5,18 @@ var findDrsSample = require('./../js/backend/search_sample.js').findDrsSample;
 
 var displayResults = function(searchResults) {
   lastResults = searchResults;
+  var displayResult = "";
+  if (!lastResults.data.length) {
+    if (searchPending) {
+      displayResult = '<h3>No doctors matched!<h3>';
+    } else {
+      displayResult = '<h3>No additional doctors matched.<h3>';
+    }
+  }
+
   if (searchPending) {
     searchPending = false;
     $('#searchOutput').html("");
-  }
-
-  var displayResult = "";
-  if (!lastResults.data.length) {
-    displayResult = '<h3>No Doctors matched!<h3>';
   }
 
   var website;
@@ -113,6 +117,7 @@ $(document).ready(function(){
 
     if (!searchPending) {
       searchPending = true;
+      lastResults = false;
       var drFirstName = $("#drFirstName").val();
       var drLastName = $("#drLastName").val();
       var medicalIssue = $("#medicalIssue").val();
@@ -120,6 +125,21 @@ $(document).ready(function(){
       $("#searchOutput").html('<h3>Search pending. One moment please...<h3>');
       newFindDrs = new findDrs(drFirstName, drLastName, medicalIssue);
       newFindDrs.findDrs(0, displayResults, displayFailure);
+    }
+  });
+
+  var win = $(window);
+  win.scroll(function(){
+    if($(document).height() - win.height() == win.scrollTop()){
+      // console.log("end of document reached.");
+      if (!lastResults) {
+        return;
+      }
+      if (!lastResults.data.length) {
+        return;
+      }
+      var skip = lastResults.data.length + lastResults.meta.skip;
+      newFindDrs.findDrs(skip, displayResults, displayFailure);
     }
   });
 });
