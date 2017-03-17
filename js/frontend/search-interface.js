@@ -1,7 +1,77 @@
-var findDrs = require('./../js/backend/search.js').findDrsModule; 
+var findDrs = require('./../js/backend/search.js').findDrsModule;
+var findDrsSample = require('./../js/backend/search_sample.js').findDrsSample;
+console.log(findDrsSample);
 
 var displayResults = function(searchResults) {
   var displayResult = "";
+  var website;
+  searchResults.data.forEach(function(drRecord){
+    displayResult +=
+      '<div class="panel panel-default">' +
+        '<div class="panel-heading">' +
+          drRecord.profile.first_name + " " +
+          (drRecord.profile.middle_name?drRecord.profile.middle_name + " ":"") +
+          drRecord.profile.last_name + " " +
+          drRecord.profile.title +
+        '</div>' +
+        '<div class="panel-body">' +
+          '<table class="table table-striped">' +
+            '<thead>' +
+              '<tr>' +
+                '<th>New Patients</th>' +
+                '<th>Description</th>' +
+                '<th>Languages</th>' +
+                '<th style="width:150px">Address</th>' +
+                '<th>Phone</th>' +
+              '</tr>' +
+            '</thead>' +
+            '<tbody>';
+
+    drRecord.practices.forEach(function(practice) {
+      website = '';
+      if ('website' in practice) {
+        website = practice.website;
+      }
+
+      displayResult +=
+              '<tr>' +
+                '<td>' + (practice.accepts_new_patients?'Yes':'No') + '</td>' +
+                '<td>' +
+                  '<p>' + practice.description + '</p>' +
+                  (website?'<a href="' + website + '">' + website + '</a>':'') +
+                '</td>' +
+                '<td>';
+      practice.languages.forEach(function(language, index){
+        displayResult +=
+                  (index?', ':'') + language.name;
+      });
+      displayResult +=
+                '</td>' +
+                '<td>' +
+                  practice.visit_address.street + '<br>' +
+                  ('street2' in practice.visit_address?practice.visit_address.street2+'<br>':'') +
+                  practice.visit_address.city + ' ' + practice.visit_address.state + ' ' + practice.visit_address.zip +
+                '</td>' +
+                '<td>' ;
+      practice.phones.forEach(function(phone) {
+        displayResult +=
+                  '<p>' +
+                    (phone.number.length === 10?phone.number.substring(0, 3) + '-' + phone.number.substring(3, 6) + '-' + phone.number.substring(6):phone.number) +
+                    // (phone.number.length === 10?phone.number.slice(0, 3) + '-' + phone.number.slice(3, 3) + '-' + phone.number.slice(6):phone.number) + // Middle slice returned nothing!?
+                  '</p>';
+      });
+      displayResult +=
+                '</td>' +
+              '</tr>';
+    });
+
+    displayResult +=
+            '</tbody>' +
+          '</table>' +
+
+        '</div>' +
+      '</div>' ;
+  });
 
   if (displayResult) {
     $("#searchOutput").append(displayResult);
@@ -16,6 +86,10 @@ var displayFailure = function(errorResult){
 
 
 $(document).ready(function(){
+  // Build display of results:
+  displayResults(findDrsSample);
+
   // Handle Search Form Here
+
 
 });

@@ -167,7 +167,6 @@ bower install moment --save (Not used in this Project)
 
 
 * Capture sample API result from Doctor Search into a variable
-* Build initial back end processing sample result into array
 * Build initial front end displaying result
 * Integrate sample back end query (see Project Requirements above)
 * Verify correct display of results
