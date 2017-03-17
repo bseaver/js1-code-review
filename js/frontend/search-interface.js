@@ -1,6 +1,7 @@
 var findDrs = require('./../js/backend/search.js').findDrsModule;
 var findDrsSample = require('./../js/backend/search_sample.js').findDrsSample;
-console.log(findDrsSample);
+
+
 
 var displayResults = function(searchResults) {
   var displayResult = "";
@@ -37,7 +38,7 @@ var displayResults = function(searchResults) {
               '<tr>' +
                 '<td>' + (practice.accepts_new_patients?'Yes':'No') + '</td>' +
                 '<td>' +
-                  '<p>' + practice.description + '</p>' +
+                  (practice.description?'<p>' + practice.description + '</p>':'') +
                   (website?'<a href="' + website + '">' + website + '</a>':'') +
                 '</td>' +
                 '<td>';
@@ -78,6 +79,8 @@ var displayResults = function(searchResults) {
   }
 };
 
+
+
 var displayFailure = function(errorResult){
   var displayResult = "";
 
@@ -85,11 +88,22 @@ var displayFailure = function(errorResult){
 };
 
 
+
+var newFindDrs;
+
 $(document).ready(function(){
-  // Build display of results:
-  displayResults(findDrsSample);
+  // The following enables developing the Dr. Result Output without
+  // frequent hit of the API:
+  // displayResults(findDrsSample);
 
-  // Handle Search Form Here
+  $("#drSearch").submit(function(event) {
+    event.preventDefault();
+    var drFirstName = $("#drFirstName").val();
+    var drLastName = $("#drLastName").val();
+    var medicalIssue = $("#medicalIssue").val();
 
-
+    $("#searchOutput").empty();
+    newFindDrs = new findDrs();
+    newFindDrs.findDrs(0, displayResults, displayFailure);
+  });
 });
