@@ -36,7 +36,7 @@ var displayResults = function(searchResults) {
                 '<th>New Patients</th>' +
                 '<th>Description</th>' +
                 '<th>Languages</th>' +
-                '<th style="width:150px">Address</th>' +
+                '<th class="addressColumn">Address</th>' +
                 '<th>Phone</th>' +
               '</tr>' +
             '</thead>' +
