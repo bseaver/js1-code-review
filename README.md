@@ -193,7 +193,6 @@ bower install moment --save (Not used in this Project)
   * Verify results scroll until end of available data
 
 * Capture sample API error result into a variable
-* Build initial back end processing sample error
 * Build initial front end displaying error
 * Verify error for:
   * Bad API key

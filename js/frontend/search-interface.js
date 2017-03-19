@@ -1,5 +1,5 @@
 var findDrs = require('./../js/backend/search.js').findDrsModule;
-var findDrsSample = require('./../js/backend/search_sample.js').findDrsSample;
+var digger = require('./../js/backend/digger.js').digger;
 
 
 
@@ -96,7 +96,49 @@ var displayResults = function(searchResults) {
 
 
 var displayFailure = function(errorResult){
-  var displayResult = "";
+  var lastResults = false,
+    displayResult = "",
+    done = false,
+    displayPiece = "";
+
+  if (searchPending) {
+    searchPending = false;
+    $('#searchOutput').html("");
+  }
+
+  if (typeof errorResult != "object") {
+    displayResult = "No further details available.";
+    done = true;
+  }
+
+  if (!done) {
+    displayPiece = digger(errorResult, "responseJSON", "meta", "message");
+    if (!displayPiece) {
+      displayPiece = digger(errorResult, "statusText");
+    }
+    if (displayPiece) {
+      displayResult += (displayResult?"<br>":"") + "Message: " + displayPiece;
+    }
+  }
+
+  if (!done) {
+    displayPiece = digger(errorResult, "responseJSON", "meta", "http_status_code");
+    if (!displayPiece) {
+      displayPiece = digger(errorResult, "status");
+    }
+    if (displayPiece) {
+      displayResult += (displayResult?"<br>":"") + "Status Code: " + displayPiece;
+    }
+  }
+
+  if (!displayResult) {
+    displayResult = "Unable to retrieve further details.";
+  }
+
+  displayResult =
+    '<div class="well"><h4>Error occurred during search:</h4><p>' +
+      displayResult +
+    '</p></div>';
 
   $("#searchOutput").append(displayResult);
 };
@@ -108,8 +150,15 @@ var searchPending;
 var lastResults;
 
 $(document).ready(function(){
-  // The following enables developing the Dr. Result Output without
-  // frequent hit of the API:
+  /*
+  ** The following commented lines
+  ** enable developing and testing the
+  ** dislay functions without
+  ** repeated hits to the API
+  */
+  // var findDrsError = require('./../js/backend/search_sample.js').errorSample;
+  // displayFailure(findDrsError);
+  // var findDrsSample = require('./../js/backend/search_sample.js').findDrsSample;
   // displayResults(findDrsSample);
 
   $("#drSearch").submit(function(event) {
@@ -118,12 +167,12 @@ $(document).ready(function(){
     if (!searchPending) {
       searchPending = true;
       lastResults = false;
-      var drFirstName = $("#drFirstName").val();
-      var drLastName = $("#drLastName").val();
+      var drName = $("#drName").val();
+      var drLocation = $("#drLocation").val();
       var medicalIssue = $("#medicalIssue").val();
 
       $("#searchOutput").html('<h3>Search pending. One moment please...<h3>');
-      newFindDrs = new findDrs(drFirstName, drLastName, medicalIssue);
+      newFindDrs = new findDrs(drName, drLocation, medicalIssue);
       newFindDrs.findDrs(0, displayResults, displayFailure);
     }
   });
