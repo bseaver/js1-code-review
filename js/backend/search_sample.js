@@ -1,3 +1,19 @@
+exports.errorSample =
+{
+  "readyState":4,
+  "responseText":"{\"meta\":{\"error\":true,\"message\":\"Invalid user_key\",\"error_code\":1000,\"http_status_code\":401}}",
+  "responseJSON":
+    {"meta":
+      {"error":true,
+        "message":"Invalid user_key",
+        "error_code":1000,
+        "http_status_code":401
+      }
+    },
+  "status":401,
+  "statusText":"Unauthorized"
+};
+
 exports.findDrsSample =
 {
   "meta": {

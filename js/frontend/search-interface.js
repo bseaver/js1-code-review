@@ -168,11 +168,12 @@ $(document).ready(function(){
       searchPending = true;
       lastResults = false;
       var drName = $("#drName").val();
-      var drLocation = $("#drLocation").val();
+      var drCity = $("#drCity").val();
+      var drState = $("#drState").val();
       var medicalIssue = $("#medicalIssue").val();
 
       $("#searchOutput").html('<h3>Search pending. One moment please...<h3>');
-      newFindDrs = new findDrs(drName, drLocation, medicalIssue);
+      newFindDrs = new findDrs(drName, drCity, drState, medicalIssue);
       newFindDrs.findDrs(0, displayResults, displayFailure);
     }
   });
