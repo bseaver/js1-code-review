@@ -37,7 +37,7 @@ var displayResults = function(searchResults) {
                 '<th>Description</th>' +
                 '<th>Languages</th>' +
                 '<th class="addressColumn">Address</th>' +
-                '<th>Phone</th>' +
+                '<th class="phoneColumn">Phone</th>' +
               '</tr>' +
             '</thead>' +
             '<tbody>';
