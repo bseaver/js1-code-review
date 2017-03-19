@@ -178,9 +178,6 @@ bower install moment --save (Not used in this Project)
 
 * Verify / Implement that UI reflects empty result in an informative way
 
-* Add an additional API call to retrieve the list of specialities, integrate into, form as dropdown and include with query
-  * Verify query appropriately restricts result set
-
 * Add styling with SASS. Use a Gulp task to compile it.
   * $ gem install sass
   * Create scss/styles.scss with background for header
@@ -200,5 +197,8 @@ bower install moment --save (Not used in this Project)
   * Bad URL for api
 
 * Investigate further API calls to support user entry of location of search
+
+* Add an additional API call to retrieve the list of specialities, integrate into, form as dropdown and include with query
+* Verify query appropriately restricts result set
 
 * End specifications
