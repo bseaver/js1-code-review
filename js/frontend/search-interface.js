@@ -42,13 +42,14 @@ var displayResults = function(searchResults) {
             '</thead>' +
             '<tbody>';
 
-    drRecord.practices.forEach(function(practice) {
-      website = '';
-      if ('website' in practice) {
-        website = practice.website;
-      }
+    if (drRecord.practices) {
+      drRecord.practices.forEach(function(practice) {
+        website = '';
+        if ('website' in practice) {
+          website = practice.website;
+        }
 
-      displayResult +=
+        displayResult +=
               '<tr>' +
                 '<td>' + (practice.accepts_new_patients?'Yes':'No') + '</td>' +
                 '<td>' +
@@ -56,11 +57,11 @@ var displayResults = function(searchResults) {
                   (website?'<a href="' + website + '">' + website + '</a>':'') +
                 '</td>' +
                 '<td>';
-      practice.languages.forEach(function(language, index){
-        displayResult +=
+        practice.languages.forEach(function(language, index){
+          displayResult +=
                   (index?', ':'') + language.name;
-      });
-      displayResult +=
+        });
+        displayResult +=
                 '</td>' +
                 '<td>' +
                   practice.visit_address.street + '<br>' +
@@ -68,18 +69,18 @@ var displayResults = function(searchResults) {
                   practice.visit_address.city + ' ' + practice.visit_address.state + ' ' + practice.visit_address.zip +
                 '</td>' +
                 '<td>' ;
-      practice.phones.forEach(function(phone) {
-        displayResult +=
+        practice.phones.forEach(function(phone) {
+          displayResult +=
                   '<p>' +
                     (phone.number.length === 10?phone.number.substring(0, 3) + '-' + phone.number.substring(3, 6) + '-' + phone.number.substring(6):phone.number) +
                     // (phone.number.length === 10?phone.number.slice(0, 3) + '-' + phone.number.slice(3, 3) + '-' + phone.number.slice(6):phone.number) + // Middle slice returned nothing!?
                   '</p>';
-      });
-      displayResult +=
+        });
+        displayResult +=
                 '</td>' +
               '</tr>';
-    });
-
+      });
+    }
     displayResult +=
             '</tbody>' +
           '</table>' +
@@ -87,6 +88,7 @@ var displayResults = function(searchResults) {
         '</div>' +
       '</div>' ;
   });
+
 
   if (displayResult) {
     $("#searchOutput").append(displayResult);
