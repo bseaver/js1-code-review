@@ -11,29 +11,11 @@
 #### Doctor Lookup
 Create a website where users may enter a medical issue (ie: “toothache”) into a form, submit it, and receive a list of doctors they may seek out to help with their medical issue.
 
-Use the BetterDoctors API to retrieve this information. You will need to make an account and an API key.
-
-Place your API key in an .env file at the top level of your directory.
-
-Include .env in .gitignore.
+Use the BetterDoctors API to retrieve this information.
 
 Use at least two JavaScript files: One to receive form input, another to make an API request and display results.
 
-The following starter code will provide a response (logged to the console) containing 20 results from the Portland, OR area. Use it to build an object that can be pushed to an array that can later be returned.
-
-exports.getDoctors = function(medicalIssue) {
-  $.get('https://api.betterdoctor.com/2016-03-01/doctors?query='+ medicalIssue+'&location=45.5231%2C-122.6765%2C%205&user_location=45.5231%2C-122.6765&skip=0&limit=20&user_key=' + apiKey)
-   .then(function(result) {
-      console.log(result);
-    })
-   .fail(function(error){
-      console.log("fail");
-    });
-};
-
-Notice the ?user_key= used with the API key after the username. You must include your personal access token with your request.
-
-Further Exploration
+#### Further Exploration
 
 If you have completed all objectives with time to spare, consider adding additional features, such as:
 
